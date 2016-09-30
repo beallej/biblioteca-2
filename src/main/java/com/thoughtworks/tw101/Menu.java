@@ -20,6 +20,7 @@ public class Menu {
 
     public void display() {
         printStream.println("1: List Books");
+        printStream.println("q: Quit");
         printStream.println("Please select an option");
         String choice = inputReader.getString();
 
