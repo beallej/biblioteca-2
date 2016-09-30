@@ -8,9 +8,7 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by tafarii on 9/28/16.
@@ -72,4 +70,11 @@ public class MenuTest {
         verify(printStream).println("q: Quit");
     }
 
+    @Test
+    public void shouldQuitWhenUserInputsQ() throws Exception {
+        when(inputReader.getString()).thenReturn("q");
+        menu.display();
+        verify(inputReader, times(1)).getString();
+
+    }
 }

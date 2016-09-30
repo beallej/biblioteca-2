@@ -26,7 +26,6 @@ public class Menu {
 
 
         while (choice != "q") {
-            //choice = getString(choice);
             choice = processInput(choice);
         }
 
