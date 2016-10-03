@@ -21,6 +21,9 @@ public class BibliotecaTest {
     private List<Book> books;
     private PrintStream printStream;
     private InputReader inputReader;
+    private Book book;
+    private Book book2;
+    private String title;
 
     @Before
     public void setUp() throws Exception {
@@ -28,24 +31,24 @@ public class BibliotecaTest {
         printStream = mock(PrintStream.class);
         inputReader = mock(InputReader.class);
         biblioteca = new Biblioteca(books, printStream, inputReader);
+        book = mock(Book.class);
+        book2 = mock(Book.class);
+        books.add(book);
+        books.add(book2);
+        title = "Book";
+        when(inputReader.getString()).thenReturn(title);
     }
 
     @Test
     public void shouldDisplayOneBookWhenStartingWithOneBook() throws Exception {
-        Book book = mock(Book.class);
-        books.add(book);
         biblioteca.listBooks();
         verify(book).display();
     }
 
     @Test
     public void shouldDisplayTwoBooksWhenStartingWithTwoBooks() throws Exception {
-        Book book1 = mock(Book.class);
-        Book book2 = mock(Book.class);
-        books.add(book1);
-        books.add(book2);
         biblioteca.listBooks();
-        verify(book1).display();
+        verify(book).display();
         verify(book2).display();
     }
 
@@ -57,24 +60,24 @@ public class BibliotecaTest {
 
     @Test
     public void shouldCheckoutBookWhenGivenTitle() throws Exception {
-        Book book = mock(Book.class);
-        books.add(book);
-        String title = "Book";
-        when(inputReader.getString()).thenReturn(title);
         when(book.hasTitle(title)).thenReturn(true);
         biblioteca.checkoutBook();
         assertFalse(books.contains(book));
     }
 
     @Test
-    public void shouldDisplayMessageWhenCheckingOutSuccesfully() throws Exception {
-        Book book = mock(Book.class);
-        books.add(book);
-        String title = "Book";
-        when(inputReader.getString()).thenReturn(title);
+    public void shouldDisplayMessageWhenCheckingOutSuccessfully() throws Exception {
         when(book.hasTitle(title)).thenReturn(true);
         biblioteca.checkoutBook();
         verify(printStream).println("Thank you! Enjoy the book");
+
+    }
+
+    @Test
+    public void shouldDisplayMessageWhenCheckingOutUnsuccessfully() throws Exception {
+        when(book.hasTitle(title)).thenReturn(false);
+        biblioteca.checkoutBook();
+        verify(printStream).println("That book is not available.");
 
     }
 }

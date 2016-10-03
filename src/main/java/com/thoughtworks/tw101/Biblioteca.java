@@ -35,8 +35,9 @@ public class Biblioteca {
             if (currentBook.hasTitle(title)){
                 bookIterator.remove();
                 printStream.println("Thank you! Enjoy the book");
+                return;
             }
         }
-
+        printStream.println("That book is not available.");
     }
 }
