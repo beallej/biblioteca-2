@@ -19,11 +19,15 @@ public class BibliotecaTest {
 
     private Biblioteca biblioteca;
     private List<Book> books;
+    private PrintStream printStream;
+    private InputReader inputReader;
 
     @Before
     public void setUp() throws Exception {
         books = new ArrayList<>();
-        biblioteca = new Biblioteca(books);
+        printStream = mock(PrintStream.class);
+        inputReader = mock(InputReader.class);
+        biblioteca = new Biblioteca(books, printStream, inputReader);
     }
 
     @Test
@@ -45,5 +49,32 @@ public class BibliotecaTest {
         verify(book2).display();
     }
 
+    @Test
+    public void shouldAskUserForBookTitleWhenCheckingOutBook() throws Exception {
+        biblioteca.checkoutBook();
+        verify(printStream).println("Please enter the title of the book.");
+    }
 
+    @Test
+    public void shouldCheckoutBookWhenGivenTitle() throws Exception {
+        Book book = mock(Book.class);
+        books.add(book);
+        String title = "Book";
+        when(inputReader.getString()).thenReturn(title);
+        when(book.hasTitle(title)).thenReturn(true);
+        biblioteca.checkoutBook();
+        assertFalse(books.contains(book));
+    }
+
+    @Test
+    public void shouldDisplayMessageWhenCheckingOutSuccesfully() throws Exception {
+        Book book = mock(Book.class);
+        books.add(book);
+        String title = "Book";
+        when(inputReader.getString()).thenReturn(title);
+        when(book.hasTitle(title)).thenReturn(true);
+        biblioteca.checkoutBook();
+        verify(printStream).println("Thank you! Enjoy the book");
+
+    }
 }

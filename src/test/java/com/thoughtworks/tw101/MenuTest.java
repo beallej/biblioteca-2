@@ -35,6 +35,13 @@ public class MenuTest {
     }
 
     @Test
+    public void shouldDisplayOptionCheckoutBookWhenMenuIsDisplayed() throws Exception {
+        when(inputReader.getString()).thenReturn("2", "q");
+        menu.display();
+        verify(printStream).println("2: Checkout Book");
+    }
+
+    @Test
     public void shouldPrintPromptWhenMenuIsDisplayed() throws Exception {
         when(inputReader.getString()).thenReturn("1", "q");
         menu.display();
@@ -46,6 +53,13 @@ public class MenuTest {
         when(inputReader.getString()).thenReturn("1", "q");
         menu.display();
         verify(biblioteca).listBooks();
+    }
+
+    @Test
+    public void shouldCheckoutBookWhenUserInputsTwo() throws Exception {
+        when(inputReader.getString()).thenReturn("2", "q");
+        menu.display();
+        verify(biblioteca).checkoutBook();
     }
 
     @Test

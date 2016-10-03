@@ -23,4 +23,8 @@ public class Book {
     public void display(){
         printStream.println(title + " | " + author + " | " + year);
     }
+
+    public boolean hasTitle(String title) {
+        return this.title.equals(title);
+    }
 }

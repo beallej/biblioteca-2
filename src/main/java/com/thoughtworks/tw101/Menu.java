@@ -20,6 +20,7 @@ public class Menu {
 
     public void display() {
         printStream.println("1: List Books");
+        printStream.println("2: Checkout Book");
         printStream.println("q: Quit");
         printStream.println("Please select an option");
         String choice = inputReader.getString();
@@ -34,15 +35,17 @@ public class Menu {
     private String processInput(String input){
         if(input.equals("1")){
             biblioteca.listBooks();
-            return inputReader.getString();
+        }
+        else if(input.equals("2")){
+            biblioteca.checkoutBook();
         }
         else if(input.equals("q")){
             return "q";
         }
         else {
             printStream.println("Select a valid option!");
-            return inputReader.getString();
         }
+        return inputReader.getString();
     }
 
 }
