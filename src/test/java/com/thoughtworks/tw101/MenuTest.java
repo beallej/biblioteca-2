@@ -91,4 +91,20 @@ public class MenuTest {
         verify(inputReader, times(1)).getString();
 
     }
+
+    @Test
+    public void shouldDisplayOptionToReturnBookWhenDisplayingMenu() throws Exception {
+        when(inputReader.getString()).thenReturn("q");
+        menu.display();
+        verify(printStream).println("3: Return Book");
+
+    }
+
+    @Test
+    public void shouldReturnBookWhenUserInputs3() throws Exception {
+        when(inputReader.getString()).thenReturn("3", "q");
+        menu.display();
+        verify(biblioteca).returnBook();
+
+    }
 }

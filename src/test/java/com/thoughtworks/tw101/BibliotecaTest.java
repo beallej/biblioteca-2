@@ -24,13 +24,15 @@ public class BibliotecaTest {
     private Book book;
     private Book book2;
     private String title;
+    private List<Book> checkedOutBooks;
 
     @Before
     public void setUp() throws Exception {
         books = new ArrayList<>();
+        checkedOutBooks = new ArrayList<>();
         printStream = mock(PrintStream.class);
         inputReader = mock(InputReader.class);
-        biblioteca = new Biblioteca(books, printStream, inputReader);
+        biblioteca = new Biblioteca(books, checkedOutBooks, printStream, inputReader);
         book = mock(Book.class);
         book2 = mock(Book.class);
         books.add(book);
@@ -78,6 +80,26 @@ public class BibliotecaTest {
         when(book.hasTitle(title)).thenReturn(false);
         biblioteca.checkoutBook();
         verify(printStream).println("That book is not available.");
+
+    }
+
+    @Test
+    public void shouldAddBookToCheckedOutBooksWhenCheckingOut() throws Exception {
+        when(book.hasTitle(title)).thenReturn(true);
+        biblioteca.checkoutBook();
+        assertTrue(checkedOutBooks.contains(book));
+
+    }
+
+    @Test
+    public void shouldReturnBookWhenGivenTitle() throws Exception {
+        String returnedTitle = "Returned Book";
+        Book returnedBook = mock(Book.class);
+        checkedOutBooks.add(returnedBook);
+        when(returnedBook.hasTitle(returnedTitle)).thenReturn(true);
+        when(inputReader.getString()).thenReturn(returnedTitle);
+        biblioteca.returnBook();
+        assertTrue(books.contains(returnedBook));
 
     }
 }
